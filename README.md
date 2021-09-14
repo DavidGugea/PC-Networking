@@ -96,3 +96,9 @@
 
 ## Chapter 47 : Raspberry Pi
 
+---
+
+## Introduction & Small Practice Overview
+
+Informations about the book and a small practice example.
+
