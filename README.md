@@ -234,3 +234,57 @@ From the network layer we will go back to the transport layer where we will send
 From the transport layer we will go back the the session layer so we know to what session the data belongs to.
 
 From the session layer, everything is optionally decrypted ( only for HTTPS ) inside the presentation layer and finally you get back the data from the GET Request from the server.
+
+Shortly explained again:
+
+We have one router ( 10.0.0.1 ) and we have 4 devices that are connected to that router ( the MAC Addresses are A, B, C, D and F )
+
+![Example Connection](/ScreenshotsForNotes/ScreenshotsChapter5/Example_Connection_1.PNG)
+
+
+Let's say that 10.0.0.3 is a web server and the phone ( 10.0.0.5 ) wants to consume it:
+
+![Example Connection 2](/ScreenshotsForNotes/ScreenshotsChapter5/Example_Connection_2.PNG)
+
+Let's say that the web server has that web application on the website https://www.example_app.com. So you go on the phone and type inside the browser "https://www.example_app.com". The moment you press enter and go on the website, a GET Request will be sent to the server that contains the IP address of the phone, the port where it was connected to, http headers, cookies, content-type, etc.
+
+![Layer 7 Application Layer Example](/ScreenshotsForNotes/ScreenshotsChapter5/Layer7_Example.PNG)
+
+Since we are using HTTPS, which stands for HTTP secure, in our example, we will have a new layer added to the network model. That layer is called the presentation layer and as the name says, it's about how we present our data. In this case we will encrypt the data since we are using HTTPS.
+
+![Layer 6 Presentation Layer Example](/ScreenshotsForNotes/ScreenshotsChapter5/Layer6_Example.PNG)
+
+Since we are using HTTP/HTTPS, which is a connection based architecture, we get to get session layer, which is layer 5. The session layer sets a sesssion ID to the data passed since we might build more connections to multiple devices we have to know where data comes from, we must keep track of its origins and its destinations.
+
+![Layer 5 Session Layer Example](/ScreenshotsForNotes/ScreenshotsChapter5/Layer5_Example.PNG)
+
+After the encrypted data has a session ID we get down to the transport layer. In the transport layer we destruct the data into multiple segments where we add the ports ( origin and destination ports inside the headers ).
+In the transportation layer we can choose if we want to use TCP or UDP. Shortly explained if we want to use TCP, the phone will send a message to the server called a SYN. If the server will receive the message it will send a message back to the phone called SYN ACK ( acknowledgment ). The phone, if it will receive the SYN ACK, will send a message back to the server telling it that he has received the acknowledgement ( ACK RECEIVED ). This is called a 3-way handshake. After this handshake the data will start to be sent between the server and the client. During the transmission, the server will always make sure that the phone gets **all the data in order**. UDP on the other hand doesn't care if you get the all the data or if it is in order.
+
+![Layer 4 Transport Layer Example](/ScreenshotsForNotes/ScreenshotsChapter5/Layer4_Example.PNG)
+
+After the transport layer we come into the network layer. In the network layer **each data segment inside the transport layer is destructed into network packets**. The packets have no information about the ports ( neither origin nor destination ). We got rid of the ports and put the IP addresses of the origin and destination devices inside the headers. It looks just like a russian doll if you think about it.
+
+![Layer 3 Network Layer Example](/ScreenshotsForNotes/ScreenshotsChapter5/Layer3_Example.PNG)
+
+After we passed the network layer we get into the data link layer. In the data link layer **each network packet is destructed into more segments**. The segments don't know the IPs of the origin or destination devices, they only have the MAC addresses.
+Sometimes you can't find the mac address, this is where you can use the ARP ( Address Resolution Protocol ) that takes the IP address and reverse engineers it into the MAC address.
+
+![Layer 2 Data Link Layer Example](/ScreenshotsForNotes/ScreenshotsChapter5/Layer2_Example.PNG)
+
+After the data link layer we go to the physical layer where every piece of data inside the frame is transformed into 1's and 0's, into an electrical flow of 1's and 0's. 
+
+![Layer 1 Physical Layer Example](/ScreenshotsForNotes/ScreenshotsChapter5/Layer1_Example.PNG)
+
+Electricty doesn't have a direction. This 1's and 0's will go to all the devices that are connected to the router.
+
+![Layer 1 Physical Layer Going through all devices Example](/ScreenshotsForNotes/ScreenshotsChapter5/Layer1_Example_AllDevices.PNG)
+
+Now from the physical layer we go back to the data link layer where each frame contains the MAC address. So after the 1's and 0's of data are going to all the devices that are connected to that network, the next thing that will happen is going to the frame in the data link layer that contains the MAC addresses of the origin and destination devices inside the header. If the MAC addresses are not the same, then the devices won't accept the frame and will stop the propagation on the other layers.
+
+![Layer 2 Data link layer backwards Example](/ScreenshotsForNotes/ScreenshotsChapter5/Layer2_Example_Backwards.PNG)
+
+Now that we know the origin and destination devices because of the frames from the data link layer that contain the MAC addresses inside the headers we just propagate back to the seventh layer, the application layer, in order to put the data on the website.
+We will go from the data link layer to the network layer that contains the IP addresses inside the headers of the network packets. From the network layer, which is the third layer, we will go to the fourth layer which is the transport layer that contains the ports inside the headers of the data segments. Afterwards we will go to the fifth layer which is the session layer so that we know to what session the data belongs to. We will eventually also go through the sixth layer, which is the presentation layer, in order to decrypt the data ( if we have used HTTPS, which stands for HTTP Secure that encrypts the data ). And finally we will get the response to our GET Request from the server.
+
+![Propagation finished Example](/ScreenshotsForNotes/ScreenshotsChapter5/get_found.PNG)
