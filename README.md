@@ -288,3 +288,67 @@ Now that we know the origin and destination devices because of the frames from t
 We will go from the data link layer to the network layer that contains the IP addresses inside the headers of the network packets. From the network layer, which is the third layer, we will go to the fourth layer which is the transport layer that contains the ports inside the headers of the data segments. Afterwards we will go to the fifth layer which is the session layer so that we know to what session the data belongs to. We will eventually also go through the sixth layer, which is the presentation layer, in order to decrypt the data ( if we have used HTTPS, which stands for HTTP Secure that encrypts the data ). And finally we will get the response to our GET Request from the server.
 
 ![Propagation finished Example](/ScreenshotsForNotes/ScreenshotsChapter5/get_found.PNG)
+
+## Chapter 6 : Ethernet
+
+### Subchapter CSMA/CD && CSMA/CA
+
+**CSMA/CD ( Carrier Message Multiple Access with Collision Detection )** is a protocol used inside topologies like the bus topology in order to avoid collisions and also handle them correctly in case that they occur. Take a look at the following diagram:
+
+![CSMA/CD Example Diagram](/ScreenshotsForNotes/ScreenshotsChapter6/CSMA_CD_Screenshot.PNG)
+
+If a PC wants to send a message, it must wait for the main cable to be idle. Once the main cable is idle, it will sends its message. If two computers sense that the main calbe is idle and send a message at the same time, a collision will occur. 
+When a collision occurs, the computers will send a **jamming** message to the entire LAN informing that a collision took place. Afterwards, the computers that caused the collision will both wait a random amount of time before trying to send their message again through the main cable.
+The CSMA/CD protocol was used back in the day where we had half-duplex. Nowadays we are using full-duplex. Half-duplex means that communication can be in both directions but can't follow simultaneously.
+
+**CSMA/CA ( Carrier Message Multiple Access with Collision Avoidance )** is a protocol used in wireless networks. Take a look at the following example:
+
+![CSMA/CA Example Diagram](/ScreenshotsForNotes/ScreenshotsChapter6/CSMA_CA_Screenshot.PNG)
+
+In this case a computer can't listen to any main cable to be idle before sending its message. It must sense other transmissions and if it doesn't sense any it can send its message. If a transmission is sent, it will wait a random amount of time before trying to send its message again through the network. Once the message is send, the receiver device will also send an acknowledgement message back to the sender device. If this message isn't received by the sender device then the entire process will start again.
+
+### Subchapter Ethernet Cables -> Twisted Pair
+
+Twisted pairt cables are the ethernet cables that are used nowadays. One end is plugged into the network interface card ( NIC ) of a device while the other end is plugged into the router's/modem's end for internet access. 
+
+Twisted pairs cables come in two variations:
+
+* UTP ( Unshielded Twisted Pair ). UTP consists of 4 pairs of color-coded wires twisted around each other. The wires are twisted in order to avoid any electriomagnetic interference.
+* STP ( Shielded Twisted Pair ). STP is the same as UTP but it also has an extra layer of shield on the wires in order to avoid electromagnetic interference leaking inside or outside the wire.
+
+Twisted pair cables have at their end an RJ45 connector.
+
+### Subchapter VLAN
+
+In a VLAN ( Virtual Local Area Network ) devices are logically connected regardless of their physical location. Let's say that you have 3 departments inside a building that are all connected to one LAN. It would look something like this:
+
+![Why do we need VLAN Example Diagram](/ScreenshotsForNotes/ScreenshotsChapter6/VLAN_Screenshot_1.PNG)
+
+You can see that the LAN is very unstructured and the worst thing about this kind of LAN is that all the departments can see each other's messages. 
+VLANs are created for:
+
+* improved security
+* traffic management
+* to make a network easier 
+
+This is how this network would look like with a VLAN:
+
+![VLAN Example Diagram](/ScreenshotsForNotes/ScreenshotsChapter6/VLAN_Screenshot_2.PNG)
+
+VLANs are created by assigning certain ports to certain parts of the network that we want to divide:
+
+![PORT Dividing VLAN Example Diagram](/ScreenshotsForNotes/ScreenshotsChapter6/VLAN_Screenshot_3.PNG)
+
+### Subchapter Promiscuous Mode
+
+When we use a HUB inside a network, the hub redirects the messages that it gets to all the devices inside the network. Naturally, the devices read the receiver MAC address of the message and if the receiver's MAC address doesn't coincide with the device's MAC address, then the message it is rejected. However, there are some workarounds for this type of problem. We could use something like wireshark in order to save all the messages that we get from outside networks regardless of the receiver's MAC address. This is called promiscuous mode. Promiscuous mode is basically eavesdropping on a network.
+
+### Subchapter Unicast, Multicast, Broadcast
+
+Unicasting means that a message goes from a host to only one device of a LAN. Broadcasting means that a message goes from a hsot to all the devices of a LAN. Multicasting means that a message goes from a host to multiple devices from a LAN ( not all ).
+
+### Subchapter Ethernet Datagramm
+
+When a message is sent through the ethernet, the message contains 7 frames:
+
+![PORT Dividing VLAN Example Diagram](/ScreenshotsForNotes/ScreenshotsChapter6/EthernetDatagramm.PNG)
