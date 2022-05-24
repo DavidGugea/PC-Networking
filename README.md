@@ -352,3 +352,7 @@ Unicasting means that a message goes from a host to only one device of a LAN. Br
 When a message is sent through the ethernet, the message contains 7 frames:
 
 ![PORT Dividing VLAN Example Diagram](/ScreenshotsForNotes/ScreenshotsChapter6/EthernetDatagramm.PNG)
+
+# Chapter 7 - Chapter 47
+
+Reading
